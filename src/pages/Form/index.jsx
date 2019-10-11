@@ -61,14 +61,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function Checkout() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  // const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
   };
 
   const handleClear = () => {
-    setActiveStep(activeStep - 1);
   };
 
   return (
