@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState  } from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import {
-  makeStyles,
   InputLabel,
   MenuItem,
   FormControl,
@@ -12,35 +11,49 @@ import {
 
 import { phoneMask } from './masks/phoneMask'
 import { cepMask } from './masks/cepMask'
-
-const useStyles = makeStyles(theme => ({    
-  button: {
-    background: 'blue',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-  },
-}));
+import { useStyles } from '../pages/Form'
 
 export default function ContactForm(props) {  
   const classes = useStyles();
   const { handleSubmit, pristine, submitting } = props;
+
   const [values, setValues] = useState({
     subject: '',
   });
 
   const [phone, setPhone] = useState('');
+  const [cep, setCep] = useState('');
+  const [address, setAddress] = useState({
+    street: '',
+    neighbourhood: '',
+    city : ''
+  });
+  
 
-  const [cep, setCep] = useState('')
+function changeAddress(value) { 
+  fetch(`https://viacep.com.br/ws/${value}/json`)
+    .then(results => results.json())
+    .then(data => {
+      setAddress({
+        street: data.logradouro,
+        neighbourhood: data.bairro,
+        city: data.localidade,
+      });
+    });      
+}
 
-  const handleChange = event => {
-    setValues(oldValues => ({
-      ...oldValues,
-      [event.target.name]: event.target.value,
-    }));
+const handleChange = event => {
+  setValues(oldValues => ({
+    ...oldValues,
+    [event.target.name]: event.target.value,
+  }));
+};
+
+  const handleChangeCep = event => {
+    if (event.target.value.length === 9) {
+      changeAddress(event.target.value);
+    }
+    setCep(cepMask(event.target.value));
   };
 
   return (
@@ -77,7 +90,7 @@ export default function ContactForm(props) {
               label="CEP / Código Postal"
               fullWidth
               value={cep}
-              onChange={event => setCep(cepMask(event.target.value))}
+              onChange={handleChangeCep}
               autoComplete="postal-code"
             />
           </Grid>
@@ -85,6 +98,7 @@ export default function ContactForm(props) {
             <TextField
               id="street"
               name="street"
+              value={address.street}
               label="Logradouro"
               fullWidth
             />
@@ -93,6 +107,7 @@ export default function ContactForm(props) {
             <TextField
               id="neighbourhood"
               name="neighbourhood"
+              value={address.neighbourhood}
               label="Bairro"
               fullWidth
             />
@@ -101,6 +116,7 @@ export default function ContactForm(props) {
             <TextField
               id="city"
               name="city"
+              value={address.city}
               label="Cidade"
               fullWidth
             />
@@ -116,8 +132,8 @@ export default function ContactForm(props) {
           <Grid item xs={12} sm={6}>
             <FormControl
               fullWidth
-              required
               name="subject"
+              required
             >
               <InputLabel htmlFor="subject">Assunto</InputLabel>
               <Select
@@ -126,11 +142,12 @@ export default function ContactForm(props) {
                 onChange={handleChange}
                 inputProps={{
                   name: 'subject',
+                  required: true,
                 }}
               >
                 <MenuItem value={10}>Financeiro</MenuItem>
                 <MenuItem value={20}>Contato</MenuItem>
-                <MenuItem value={30}>Outro</MenuItem>
+                <MenuItem value={30}>Outros</MenuItem>
               </Select>
             </FormControl> 
           </Grid>
