@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
@@ -62,13 +61,6 @@ const useStyles = makeStyles(theme => ({
 export default function Checkout() {
   const classes = useStyles();
   // const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-  };
-
-  const handleClear = () => {
-  };
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -86,25 +78,7 @@ export default function Checkout() {
           </Typography>
           <React.Fragment>            
               <React.Fragment>
-                <ContactForm />
-                <div className={classes.buttons}>
-                  <Button 
-                    variant="contained"
-                    color="grey"
-                    onClick={handleClear} 
-                    className={classes.button}
-                  >
-                    Limpar
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    Enviar
-                  </Button>
-                </div>
+                <ContactForm />                
               </React.Fragment>
           </React.Fragment>
         </Paper>
