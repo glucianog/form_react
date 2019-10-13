@@ -3,9 +3,10 @@
 Criação de formulário básico com seguintes campos (Campos com * são obrigatórios):
  * Nome*
  * Telefone* (possui máscara com o formato [(99) 99999-9999])
- * Endereço
-    * CEP (Ao inserir, as informações abaixo são completadas - Utilização da API VIACEP)
+ * Endereço 
     * Número
+    * CEP (Ao inserir, as informações abaixo são completadas - Utilização da API VIACEP)
+    * Logradouro
     * Bairro
     * Cidade
 * Assunto* - Combobox com três opções:
